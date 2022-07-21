@@ -1,0 +1,17 @@
+package com.spring.boardweb.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Entity //이 객체가 Entity객체임을 선언, 필수 값
+@Table(name="T_USER") //테이블 어노테이션은 필수 값은 아님, 객체명과 테이블 명이 다를 때 테이블 명을 지정하기 위해 사용
+@Data 
+public class User {
+	private String userId;
+	private String userPw;
+	private String userMail;
+	private String userTel;
+
+}

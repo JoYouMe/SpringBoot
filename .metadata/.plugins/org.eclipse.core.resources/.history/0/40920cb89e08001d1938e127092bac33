@@ -1,0 +1,30 @@
+package com.spring.boardweb.entity;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Entity
+@Table(name="T_BOARD")
+@Data //lombok
+public class Board {
+	
+	@Id //키 값으로 지정
+	private int boardSeq;
+	
+	private String boardTitle;
+	
+	private String boardWriter;
+	
+	private String boardContent;
+								
+	private LocalDateTime boardRegdate = LocalDateTime.now(); //현재시간을 넣어줌
+	
+	private LocalDateTime boardMdfdate = LocalDateTime.now(); //현재시간을 넣어줌
+	
+	private int boardCnt;
+}

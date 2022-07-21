@@ -5,6 +5,9 @@ import java.util.Map;
 
 import lombok.Data;
 
+//DTO에 Entity를 사용해도 무관
+//@Entity
+
 @Data
 public class TestDTO {
 	private int idx;
