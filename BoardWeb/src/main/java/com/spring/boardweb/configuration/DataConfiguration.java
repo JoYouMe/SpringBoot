@@ -1,9 +1,9 @@
 package com.spring.boardweb.configuration;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
-import org.apache.catalina.core.ApplicationContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,5 +24,11 @@ public class DataConfiguration {
 	public DataSource dataSource() throws Exception {
 		DataSource dataSource = new HikariDataSource(hikariConfig());
 		return dataSource;
+	}
+	
+	@Bean
+	@ConfigurationProperties(prefix="spring.jpa")
+	public Properties hibernateConfig() {
+		return new Properties();
 	}
 }
