@@ -1,0 +1,50 @@
+1. Hikari CP
+    - 2012년 개발된 커넥션 풀
+        SpringBoot 2.0부터 기본 커넥션 풀로 지정됨
+        SpringFramework에서는 기본 JDBC 클래스에서 제공하는 커넥션 풀을 사용했지만
+        SpringBoot에서는 Hikari CP를 이용해서 커넥션풀을 만듦
+    - 커넥션 풀이란?
+        데이터베이스와 연결된 커넥션들을 미리 생성해놓고 pool로 관리하는 것
+
+                                커넥션 풀
+                                 커넥션1
+                                 커넥션2
+                                 커넥션3
+                커넥션 요청      
+        사용자1  ---------->      .....
+                <----------
+                사용중이지 않은 커넥션을 하나 빌려주는 형태
+
+2. ORM(Object Relational Mapping)
+    - 자바객체와 테이블을 매핑시키는 기술 및 Framework
+      (SpringFramework에서는 VO, SpringBoot에서는 Entity)
+
+3. JPA(Java Persistence API)
+    - JPA는 실제 동작을 만드는 것이 아니라 어떻게 동작해야 되는지 매커니즘을 명시해줌
+    - 개발자가 테이블가 1:1로 매핑되는 객체(VO ,DTO, Entity)를 이용하여 쿼리 매커니즘을 명시하면 자동으로 쿼리가 생성되고 실행됨
+    - JPA는 인터페이스이고 대표적인 구현체로는 Hibernate, EclipseLink, DataNucles
+
+4. Hibernate
+    - JPA의 대표적인 구현체중 하나로 CRUD에 필요한 인터페이스를 제공하고 리포지토리를 정의해 사용함으로써 스프링이 적합한 쿼리를 
+    동적으로 생성하는 방식으로 데이터베이스를 조작 
+
+5. Persistence Context(영속성 컨텍스트)
+    - 어플리케이션과 데이터베이스 사이에서 Entity와 데이터의 괴리를 해소하는 기능
+    - 객체 보관 기능
+
+    Application        Persistence Context          Database
+      Entity1 -------> Persistence Object1 ------->  table1
+      Entity2 -------> Persistence Object2 ------->  table2
+
+6. Entity Manager
+    - 데이터베이스에 접근하여 직접 쿼리를 수행하는 객체
+    - Entity Manager를 상속받은 객체를 조작하여 수행
+
+7. JPA 옵션
+    - spring.jpa.hibernate.ddl-auto
+      (1) create : Application이 실행될 때 기존 테이블을 삭제하고 다시 생성
+      (2) create-drop : 삭제 시점이 어플리케이션 종료(나머지는 create 동일하게 동작)
+      (3) update: 변경된 스키마만 적용, 기존 데이터는 유지
+      (4) validate : update와 비슷하지만 스키마는 변경하지 않고 테이블 정보만 변경
+      (5) none : ddl-auto 기능을 사용하지 않음 
+    
