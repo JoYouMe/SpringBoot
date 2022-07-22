@@ -6,16 +6,39 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>index</title>
-		<!--<th:block layout:fragment="css">
-			<link rel="stylesheet" th:href="@{/css/test.css}">
-		</th:block>
 		<th:block layout:fragment="script">
 			<script>
+				//로그인 시 아이디나 비밀번호가 틀렸을 경우를
+				//대비하여 폼을 서브밋 하지 않고
+				//후 처리를 위해 ajax로 처리
 				$(function() {
-					alert("hello spring boot");
+					$("#btnLogin").on("click", function() {
+						$.ajax({
+							url: '/user/login',
+							type: 'post',
+							data: $("#loginForm").serialize(),
+							success: function(obj) {
+								//1. 아이디 체크
+								if(obj === 'idFail') {
+									alert("존재하지 않는 아이디입니다.");
+									return;
+								} else if(obj === 'pwFail') {
+									//2. 비밀번호 체크
+									alert("비밀번호가 틀렸습니다.");
+									return;
+								}
+								
+								//3. 로그인 처리
+								location.href = "/";
+							},
+							error: function(e) {
+								console.log(e);
+							}
+						});
+					});
 				});
 			</script>
-		</th:block>-->
+		</th:block>
 	</head>
 	<body>
 		<header th:replace="./fragments/header.html :: header"></header>

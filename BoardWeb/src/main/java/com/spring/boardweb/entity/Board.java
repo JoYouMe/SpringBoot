@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Entity
 @Table(name="T_BOARD")
-@Data //lombok
+@Data //getter, setter, tostring 등을 자동으로 생성
 @SequenceGenerator(
 		name="T_BOARD_SEQ_GENERATOR",  //name: SequenceGenerator의 이름 지정
 		sequenceName="T_BOARD_SEQ",    //sequenceName: DB에 생성될 시퀀스의 이름 지정
@@ -24,7 +24,7 @@ public class Board {
 	
 	@Id //키 값으로 지정
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, // 키 값 생성 전략을 설정, @GeneratedValue를 사용하지 않으면 직접 할당을 해야함
-				generator = "T_BOARD_") //GenerationType의 속성
+				generator = "T_BOARD_SEQ_GENERATOR") //GenerationType의 속성
 										//AUTO: 기본 설정 값. 데이터베이스에 맞게 자동 생성
 										//IDENTITY: AUTO_INCREMENT를 사용하여 기본 키 설정
 										//SEQUENCE: 시퀀스를 생성하여 키 값에 배정하는 방식, 이 설정을 사용하기 위해서는 

@@ -1,0 +1,5 @@
+package com.spring.boardweb.api;
+
+public class BoardApi {
+
+}

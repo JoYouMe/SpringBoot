@@ -42,13 +42,13 @@
 			
 			<table border="1" style="width: 700px; border-collapse: collapse;">
 				<tr>
-					<th style="backgrond: orange; width: 100px;">번호</th>
-					<th style="backgrond: orange; width: 200px;">제목</th>
-					<th style="backgrond: orange; width: 150px;">작성자</th>
-					<th style="backgrond: orange; width: 150px;">등록일</th>
-					<th style="backgrond: orange; width: 100px;">조회수</th> 
+					<th style="background: orange; width: 100px;">번호</th>
+					<th style="background: orange; width: 200px;">제목</th>
+					<th style="background: orange; width: 150px;">작성자</th>
+					<th style="background: orange; width: 150px;">등록일</th>
+					<th style="background: orange; width: 100px;">조회수</th> 
 				</tr>
-				<tr>
+				<!--<tr>
 					<td>1</td>
 					<td>
 						<a href="/board/getBoard?boardSeq=1">제목1</a>
@@ -56,31 +56,39 @@
 					<td>작성자1</td>
 					<td>2022.07.13</td>
 					<td>1</td>
+				</tr>-->
+				<tr th:each="board : ${boardList}">
+					<td th:text="${board.boardSeq}"></td>
+					<td>
+						<a th:href="@{/board/getBoard/{boardSeq} (boardSeq=${board.boardSeq})}"
+						   th:text="${board.boardTitle}"></a>
+					</td>
+					<td th:text="${board.boardWriter}"></td> 
+								<!--날짜 형식 지정-->
+					<td th:text="${#temporals.format(board.boardRegdate, 'yyyy-MM-dd')}"></td>
+					<td th:text="${board.boardCnt}"></td>
 				</tr>
 			</table>
 			<br/>
 			<div style="text-align: center;">
-				<ul class="pagination">
-					<li class="pagination_button">
-						<a href="#">Previous</a>
+									    <!--사용할 변수 선언-->
+				<ul class="pagination" th:with="pageNumber = ${boardList.pageable.pageNumber},
+												pageSize = ${boardList.pageable.pageSize},
+												totalPages = ${boardList.totalPages},
+												startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+												tempEndPage = ${startPage + pageSize - 1},
+												endPage = ${tempEndPage > totalPages ? totalPages : tempEndPage}">
+					<li class="pagination_button" th:if="${pageNumber > 0}">
+						<a th:href="@{/board/getBoardList(page=${pageNumber - 1})}">Previous</a>
 					</li>
 					
-					
-					<li class="pagination_button">
-						<a href="#">1</a>
-					</li>
-					<li class="pagination_button">
-						<a href="#">2</a>
-					</li>
-					<li class="pagination_button">
-						<a href="#">3</a>
-					</li>
-					<li class="pagination_button">
-						<a href="#">4</a>
+					<li class="pagination_button" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+														<!--첫 페이지가 0이기 때문에 여기서도 -1해줌 -->
+						<a th:href="@{/board/getBoardList(page=${page - 1})}" th:text="${page}" ></a>
 					</li>
 					
-					<li class="pagination_button">
-						<a href="#">Next</a>
+					<li class="pagination_button" th:if="${pageNumber < totalPages - 1}">
+						<a th:href="@{/board/getBoardList(page=${pageNumber + 1})}">Next</a>
 					</li>
 				</ul>
 			</div>

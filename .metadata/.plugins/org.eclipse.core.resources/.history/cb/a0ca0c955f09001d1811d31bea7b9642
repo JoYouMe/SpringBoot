@@ -1,0 +1,17 @@
+package com.spring.boardweb.service.board;
+
+import java.util.List;
+
+import com.spring.boardweb.entity.Board;
+
+public interface BoardService {
+	List<Board> getBoardList();
+
+	void insertBoard(Board board);
+	
+	Board getBoard(int boardSeq);
+						 //인자는 boardSeq를 받음
+	void deleteBoard(int boardSeq);
+	
+	void updateBoard(Board board);
+}

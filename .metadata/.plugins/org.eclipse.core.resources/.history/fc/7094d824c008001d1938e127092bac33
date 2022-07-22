@@ -1,0 +1,61 @@
+package com.spring.boardweb.controller.board;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.spring.boardweb.entity.Board;
+import com.spring.boardweb.service.board.BoardService;
+
+@RestController
+@RequestMapping("/board")
+public class BoardController {
+	@Autowired
+	BoardService boardService;
+	@GetMapping("/getBoardList")
+	public ModelAndView getBoardListView() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/getBoardList.html");
+		
+		List<Board> boardList = boardService.getBoardList();
+		mv.addObject("boardList", boardList);
+		
+		return mv;
+	}
+	
+	@GetMapping("/getBoard")
+	public ModelAndView getBoardView() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/getBoard.html");
+		
+		return mv;
+	}
+	
+	@GetMapping("/insertBoard")
+	public ModelAndView insertBoardView() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/insertBoard.html");
+		
+		return mv;
+	}
+	
+	@PostMapping("/insertBoard")
+	public void insertBoardView(HttpServletResponse response, Board board) throws IOException {
+		boardService.insertBoard(board);
+		
+		Board board2 = new Board();
+		System.out.println(board.getBoardSeq());
+		System.out.println(board.getBoardTitle());
+		//RestController에서는 String으로 Redirect 불가능하여 response객체를 사용하여 Redirect함
+		response.sendRedirect("/board/getBoardList");
+		
+	}
+}
