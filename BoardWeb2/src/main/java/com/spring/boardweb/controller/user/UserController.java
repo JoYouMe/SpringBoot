@@ -17,70 +17,69 @@ import com.spring.boardweb.service.user.UserService;
 public class UserController {
 	@Autowired
 	UserService userService;
-
-	// 화면에 뿌림
+	
 	@GetMapping("/join")
-	// @RestController에서 화면을 반환하려면 ModelAndView 객체를 사용하여 화면을 반환
+	//@RestController에서 화면을 반환하려면 ModelAndView 객체를 사용하여
+	//화면을 반환한다.
 	public ModelAndView joinView() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/join.html");
-
+		
 		return mv;
 	}
-
+	
 	@GetMapping("/login")
 	public ModelAndView loginView() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/login.html");
-
+		
 		return mv;
 	}
-
-	// 전송한 데이터를 insert
-	@PostMapping("/join") // Entity 객체
+	
+	@PostMapping("/join")
 	public ModelAndView join(User user) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/login.html");
-
+		
 		userService.join(user);
+		
 		return mv;
 	}
-
+	
 	@PostMapping("/idCheck")
 	public String idCheck(User user) {
 		User idCheck = userService.idCheck(user.getUserId());
-
-		if (idCheck == null) {
+		
+		if(idCheck == null) {
 			return "idOk";
 		} else {
 			return "idFail";
 		}
 	}
-
+	
 	@PostMapping("/login")
 	public String login(User user, HttpSession session) {
 		User loginUser = userService.idCheck(user.getUserId());
-		if (loginUser == null) {
+		
+		if(loginUser == null) {
 			return "idFail";
 		} else {
-			if (!loginUser.getUserPw().equals(user.getUserPw())) {
+			if(!loginUser.getUserPw().equals(user.getUserPw())) {
 				return "pwFail";
 			} else {
 				session.setAttribute("loginUser", loginUser);
+				
 				return "loginSuccess";
 			}
-
 		}
-
 	}
-
+	
 	@GetMapping("/logout")
 	public ModelAndView logout(HttpSession session) {
 		session.invalidate();
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/user/login.html");
-
+		mv.setViewName("user/login.html");
+		
 		return mv;
 	}
-
 }

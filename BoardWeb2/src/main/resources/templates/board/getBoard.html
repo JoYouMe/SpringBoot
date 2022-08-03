@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>index</title>
 		<th:block layout:fragment="script">
-			<script th:inline="javascript">	
+			<script th:inline="javascript">
 				function deleteBoardFile(fileSeq) {
 					$.ajax({
 						url: '/board/deleteBoardFile',
@@ -26,10 +26,21 @@
 				}
 				
 				$(function() {
-					/*<[CDATA]*/
+					/*<[CDATA[*/
 					const loginUserId = /*[[${session.loginUser.userId}]]*/;
 					const boardWriter = /*[[${board.boardWriter}]]*/;
+					//const fileList = /*[[${fileList}]]*/;
 					/*]]>*/
+					console.log(loginUserId);
+					console.log(boardWriter);
+					//console.log(fileList);
+					
+					/*if(fileList !== null) {
+						$("input[name='fileSeq']").val(fileList[fileList.length - 1].fileSeq + 1);
+					} else {
+						$("input[name='fileSeq']").val('1');
+					}*/					
+					
 					if(loginUserId !== boardWriter) {
 						$("#btnWrap").hide();
 						$("#btnDelete").hide();
@@ -53,6 +64,7 @@
 			<h3>게시글 상세</h3>
 			<form action="/board/updateBoard" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="boardSeq" th:value="${board.boardSeq}">
+				<!--<input type="hidden" name="fileSeq">-->
 				<table border="1" style="border-collapse: collapse;">
 					<tr>
 						<td style="background: orange; width: 70px">
@@ -81,7 +93,7 @@
 					<tr>
 						<td style="background: orange;">
 							작성일
-						</td>									<!--날짜 형식 지정-->
+						</td>
 						<td style="text-align: left" th:text="${#temporals.format(board.boardRegdate, 'yyyy-MM-dd')}">
 							
 						</td>
@@ -99,10 +111,10 @@
 							첨부파일
 						</td>
 						<td>
-							<div th:if="${fileList ne null}" th:each="file :${fileList}" th:remove="tag">
+							<div th:if="${fileList ne null}" th:each="file : ${fileList}" th:remove="tag">
 								<a class="downlink" th:id="${file.fileSeq}" th:href="${file.fileName}" th:text="${file.originalFileName}"></a>
-								<button type="button" th:onclick="'deleteBoardFile('+${file.fileSeq}+')'">삭제</button>
-								<img th:src="@{/upload/} + ${file.fileName}" style="max-width: 100px; max-height:100px; display:block; ">
+								<button type="button" th:onclick="'deleteBoardFile('+ ${file.fileSeq} +')'">삭제</button>
+								<!--<img th:src="@{/upload/} + ${file.fileName}">-->
 								<br/>
 							</div>
 						</td>
@@ -123,7 +135,7 @@
 				</table>
 			</form>
 			<hr/>
-			<a href="/board/insertBoard">글 등록</a>				    	
+			<a href="/board/insertBoard">글 등록</a>
 			<a id="btnDelete" th:href="@{/board/deleteBoard/{boardSeq} (boardSeq=${board.boardSeq})}">글 삭제</a>
 			<a href="/board/getBoardList">글 목록</a>
 		</div>

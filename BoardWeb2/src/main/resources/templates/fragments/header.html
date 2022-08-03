@@ -9,7 +9,7 @@
 	  	<header th:fragment="header" style="display: flex; justify-content: space-around; align-items: center; background: orange;">
 		<h1>
 			<a th:href="@{/}">
-				홈!!!!!!
+				홈
 			</a>
 		</h1>
 		<nav>
@@ -21,7 +21,7 @@
 		</nav>
 		<nav>
 			<ul class="user-nav">
-				<div th:if="${session.loginUser eq null}" th:remove="tag"> <!--remove: 삭제해서 안보이게하는것을 의미-->
+				<div th:if="${session.loginUser eq null}" th:remove="tag">
 					<li>
 						<a href="/user/login">로그인</a>
 					</li>
