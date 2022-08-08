@@ -1,27 +1,55 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import TodoInsert from "./components/todos/TodoInsert";
+import TodoList from "./components/todos/TodoList";
+import TodoTemplate from "./components/todos/TodoTemplate";
+import { call } from "./service/ApiService";
 
 function App() {
-  const [hello, setHello] = useState("");
-  const [hello2, setHello2] = useState([]); //리스트를 받아오기위해 배열로 선언
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    /* 리턴 타입이 String일 때
-    fetch("http://localhost:8080/api/test", { method: "GET" })
-      .then((response) => response.text())
-      .then((text) => setHello(text));
-    */
+    call("/api/todo/selectTodoList", "GET", null).then((Response) =>
+      setTodos(Response.data)
+    );
+  }, []); //처음 렌더링 됐을때만 돌아가도록 설정
 
-    //리턴 타입이 객체나 리스트 일 때
-    fetch("http://localhost:8080/api/test2", { method: "GET" })
-      .then((response) => response.json())
-      .then((json) => {
-        setHello2(json.data);
-      });
-  }, []);
+  const onInsert = useCallback(
+    (text) => {
+      const todo = {
+        id: todos.length + 1,
+        text: text,
+        checked: false,
+      };
+      setTodos(todos.concat(todo));
+    },
+    [todos]
+  );
 
-  return <div>{hello}</div>;
+  const onRemove = useCallback(
+    (id) => {
+      setTodos(todos.filter((todo) => id !== todo.id));
+    },
+    [todos]
+  );
+
+  const onChecked = useCallback(
+    (id) => {
+      setTodos(
+        todos.map((todo) =>
+          id === todo.id ? { ...todo, checked: !todo.checked } : todo
+        )
+      );
+    },
+    [todos]
+  );
+
+  return (
+    <TodoTemplate>
+      <TodoInsert onInsert={onInsert} />
+      <TodoList todos={todos} onRemove={onRemove} onChecked={onChecked} />
+    </TodoTemplate>
+  );
 }
 
 export default App;

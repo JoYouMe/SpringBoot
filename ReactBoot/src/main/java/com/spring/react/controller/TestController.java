@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.react.DTO.ResponseDTO;
-import com.spring.react.DTO.TestDTO;
+import com.spring.react.dto.ResponseDTO;
+import com.spring.react.dto.TestDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -19,8 +21,10 @@ public class TestController {
 		return "Hello World";
 	}
 	
-	@GetMapping("/test2")
-	public ResponseEntity<?> test2() {
+	@PostMapping("/test2")		//React에서 onClickHandler 받아오기
+	public ResponseEntity<?> test2(@RequestBody TestDTO test) {
+		System.out.println(test.toString());
+		
 		//ResponseDTO를 ResponseEntity에 담아서 리턴
 		List<TestDTO> testList = new ArrayList<TestDTO>();
 		

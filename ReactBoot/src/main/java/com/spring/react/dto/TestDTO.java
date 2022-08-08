@@ -1,4 +1,4 @@
-package com.spring.react.DTO;
+package com.spring.react.dto;
 
 import lombok.Data;
 
