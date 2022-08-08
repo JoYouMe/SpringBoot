@@ -9,10 +9,10 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    call("/api/todo/selectTodoList", "GET", null).then((Response) =>
-      setTodos(Response.data)
+    call("/api/todo/selectTodoList", "GET", null).then((response) =>
+      setTodos(response.data)
     );
-  }, []); //처음 렌더링 됐을때만 돌아가도록 설정
+  }, []);
 
   const onInsert = useCallback(
     (text) => {
@@ -21,7 +21,15 @@ function App() {
         text: text,
         checked: false,
       };
-      setTodos(todos.concat(todo));
+
+      //setTodos 그냥 화면만 변경이 됨
+      //setTodos(todos.concat(todo));
+
+      //todo입력하고 db에 저장한 한 후에
+      //다시 selectTodoList 해온 값을 리턴
+      call("/api/todo/insertTodo", "POST", todo).then((response) =>
+        setTodos(response.data)
+      );
     },
     [todos]
   );

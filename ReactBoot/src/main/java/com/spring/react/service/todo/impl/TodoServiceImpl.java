@@ -18,4 +18,10 @@ public class TodoServiceImpl implements TodoService {
 	public List<Todo> selectTodoList(String username) {
 		return todoRepository.findByUsername(username);
 	}
+
+	@Override
+	public void insertTodo(Todo todo) {
+		todoRepository.save(todo);
+		
+	}
 }
